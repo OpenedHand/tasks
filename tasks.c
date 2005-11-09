@@ -273,6 +273,8 @@ tn_wm_window_destroy (TNWMWindow *win)
 static gboolean
 tn_wm_window_props_sync (TNWMWindow *win, gulong props)
 {
+  gdk_error_trap_push();
+
   if (props & TN_WM_SYNC_NAME)
     {
       if (win->name) 
@@ -281,6 +283,8 @@ tn_wm_window_props_sync (TNWMWindow *win, gulong props)
       /* FIXME: handle UTF8 naming and trap */
       XFetchName(GDK_DISPLAY(), win->xwin, &win->name);
     }
+
+  gdk_error_trap_pop();
 
   return TRUE;
 }
